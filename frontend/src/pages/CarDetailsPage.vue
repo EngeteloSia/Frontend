@@ -43,6 +43,70 @@
       </div>
 
     </div>
+
+      <div v-else class="car-container">
+        <!-- Left: Car Image -->
+        <div class="car-image-section">
+          <img :src="car.mediaBase64 || placeholderImage" alt="Car Image" />
+          <div class="overlay-360">360° View</div>
+        </div>
+
+        <!-- Middle: Vehicle Details -->
+        <div class="vehicle-details">
+          <h3>Vehicle Details</h3>
+          <table>
+            <tbody>
+              <tr><td>Code</td><td>{{ car.carVIN || 'N/A' }}</td></tr>
+              <tr><td>Mileage</td><td>{{ (car.carMileage ?? 0).toLocaleString() }} km</td></tr>
+              <tr><td>Key</td><td>{{ car.hasKey ? 'Yes' : 'No' }}</td></tr>
+              <tr><td>Status</td><td>{{ car.carStatus || 'Unknown' }}</td></tr>
+              <tr><td>Make / Model</td><td>{{ car.carMake }} {{ car.carModel }}</td></tr>
+              <tr><td>Year</td><td>{{ car.carYear }}</td></tr>
+              <tr><td>Source</td><td>{{ car.source || 'Unknown' }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right: Auction & Actions -->
+        <div class="auction-info">
+         
+          <div class="countdown-bar">
+            ⏰ {{ formatCountdown(car.remainingTime) }}
+          </div>
+
+          <!-- Current Bids -->
+          <div class="bid-info">
+            <p>Asking Bid</p>
+            <h2>R{{ (car.price ?? 0).toLocaleString() }}</h2>
+            <p>Winning Buyer: {{ car.winningBuyer || 'None' }}</p>
+          </div>
+
+          <!-- Bid Calculator -->
+          <div class="bid-calculator">
+            <h4>Bid Calculator</h4>
+            <input type="number" v-model.number="userBid" placeholder="Enter your bid" />
+            <button @click="calculateBid">Calculate</button>
+            <p v-if="calculatedBid">Your bid plus increment: R{{ calculatedBid.toLocaleString() }}</p>
+          </div>
+
+          <!-- Login Prompt -->
+          <div class="login-prompt">
+            <p>Please log in to place your bid.</p>
+            <button @click="goTo('login')">Login</button>
+            <button @click="goTo('signup')">Sign Up</button>
+          </div>
+
+          <!-- Auction Details -->
+          <div class="bid-details">
+            <p>Bid Increment: R{{ car.bidIncrement ?? 1000 }}</p>
+            <p>Winning Bid: R{{ car.currentBid ?? 0 }}</p>
+            <p>Subject To Confirmation: Yes</p>
+            <p>Expires: {{ formatDate(car.auctionEndTime) }}</p>
+            <p>Successful Bids: {{ car.successfulBids ?? 0 }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
