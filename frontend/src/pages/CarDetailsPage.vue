@@ -48,7 +48,7 @@
 
         <!-- Right: Auction & Actions -->
         <div class="auction-info">
-          <!-- Countdown -->
+         
           <div class="countdown-bar">
             ⏰ {{ formatCountdown(car.remainingTime) }}
           </div>
